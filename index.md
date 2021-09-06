@@ -121,7 +121,6 @@ class User(AbstractUser):
 
     def __str__(self):
         return f'{self.first_name} {self.last_name} : {self.email}, {self.phone_number}'
-
 ```
 
 ## Модель Car
@@ -274,8 +273,6 @@ class Car(models.Model):
 
     def __str__(self):
         return f'{self.brand} {self.model} : {self.license_plate}'
-
-
 ```
 
 ## Модель RentCar
@@ -371,7 +368,6 @@ class RentCar(models.Model):
 
     def __str__(self):
         return f'{self.client} : {self.car}'
-
 ```
 
 ## Модель Article
@@ -389,7 +385,6 @@ class Article(models.Model):
 
     def __str__(self):
         return f'{self.title}, {self.date_created}, {self.description}'
-
 ```
 
 ## Модель AboutUs
@@ -407,5 +402,4 @@ class AboutUs(models.Model):
 
     def __str__(self):
         return f'{self.title}, {self.date_created}, {self.description}'
-
 ```
