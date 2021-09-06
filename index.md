@@ -5,7 +5,6 @@
 ## Модель User
 
 ```python
-
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import MinLengthValidator, RegexValidator
@@ -128,7 +127,6 @@ class User(AbstractUser):
 ## Модель Car
 
 ```python
-
 from django.db import models
 from django.utils import timezone
 
@@ -283,7 +281,6 @@ class Car(models.Model):
 ## Модель RentCar
 
 ```python
-
 from django.db import models
 from django.utils import timezone
 from django.conf import settings
@@ -380,7 +377,6 @@ class RentCar(models.Model):
 ## Модель Article
 
 ```python
-
 from django.db import models
 from django.utils import timezone
 
@@ -399,7 +395,6 @@ class Article(models.Model):
 ## Модель AboutUs
 
 ```python
-
 from django.db import models
 from django.utils import timezone
 
