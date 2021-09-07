@@ -648,7 +648,6 @@ from .views import UserDetailView
 from .views import (
     RegisterUser,
     LoginUser,
-    login_user,
     profile_user
 )
 from django.contrib.auth import views as auth_views
