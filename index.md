@@ -547,3 +547,100 @@ class LoginUserForm(AuthenticationForm):
             'password',
         ]
 ```
+
+# Views
+
+```python
+from django.shortcuts import render, redirect
+from django.contrib.auth import logout, login, authenticate
+from django.http.response import HttpResponseRedirect
+from django.views.generic.base import View
+from django.contrib.auth.views import LoginView
+from .forms import RegistrationUserForm, LoginUserForm
+from .models import User
+from django.views.generic.list import ListView
+from django.views.generic.detail import DetailView
+from django.views.generic.edit import UpdateView, CreateView, DeleteView
+from django.urls import reverse_lazy
+
+
+class UserListView(ListView):
+    model = User
+    template_name = 'b_user/list_view/user_list.html'
+
+
+class UserCreateView(CreateView):
+    model = User
+    fields = '__all__'
+    template_name = 'b_user/create_view/user_create.html'
+    success_url = '/overview/user/list/'
+
+
+class UserUpdateView(UpdateView):
+    model = User
+    fields = '__all__'
+    template_name = 'b_user/update_view/user_update.html'
+    success_url = '/overview/user/list/'
+
+
+class UserDeleteView(DeleteView):
+    model = User
+    template_name = 'b_user/delete_view/user_confirm_delete.html'
+    success_url = '/overview/user/list/'
+
+
+class UserDetailView(DetailView):
+    model = User
+    template_name = 'b_user/detail_view/user_detail.html'
+
+
+class RegisterUser(View):
+    def get(self, request, *args, **kwargs):
+        form = RegistrationUserForm(request.POST or None)
+        context = {'form': form}
+        return render(request, 'registration/register.html', context)
+
+    def post(self, request, *args, **kwargs):
+        form = RegistrationUserForm(request.POST or None)
+        if form.is_valid():
+            new_user = form.save(commit=False)
+            new_user.username = form.cleaned_data['username']
+            new_user.email = form.cleaned_data['email']
+            new_user.save()
+            new_user.set_password(form.cleaned_data['password'])
+            new_user.save()
+            user = authenticate(username=form.cleaned_data['username'], password=form.cleaned_data['password'])
+            # user = authenticate(email=form.cleaned_data['email'], password=form.cleaned_data['password'])
+            login(request, user)
+            return HttpResponseRedirect('/account/login/')
+        return render(request, 'registration/register.html', {'form': form})
+
+
+class LoginUser(LoginView):
+    form = LoginUserForm
+    template_name = "registration/login.html"
+
+    def get_success_url(self):
+        return reverse_lazy('overview_car_list')
+
+
+def profile_user(request):
+    args = {'user': request.user}
+    return render(request, 'b_user/detail_view/user_profile_overview.html', args)
+
+
+def logout_user(request):
+    logout(request)
+    return redirect('/')
+```
+
+# Urls
+
+```python
+from django.urls import path
+from .views import CarListView
+
+urlpatterns = [
+    path('overview/car/list/', CarListView.as_view(), name='overview_car_list'),
+]
+```
