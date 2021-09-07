@@ -637,9 +637,47 @@ def logout_user(request):
 
 ```python
 from django.urls import path
-from .views import CarListView
+from .views import (
+    UserListView,
+    CarListView
+)
+from .views import UserCreateView
+from .views import UserUpdateView
+from .views import UserDeleteView
+from .views import UserDetailView
+from .views import (
+    RegisterUser,
+    LoginUser,
+    login_user,
+    profile_user
+)
+from django.contrib.auth import views as auth_views
+from django.conf import settings
 
 urlpatterns = [
+    path('overview/user/list/', UserListView.as_view(), name='user_list'),
     path('overview/car/list/', CarListView.as_view(), name='overview_car_list'),
+    
+    path('overview/user/create/', UserCreateView.as_view(), name='user_create'),
+
+    path('overview/user/<int:pk>/update/', UserUpdateView.as_view(), name='user_update'),
+
+    path('overview/user/<int:pk>/delete/', UserDeleteView.as_view(), name='user_delete'),
+
+    path('overview/user/<int:pk>/detail/', UserDetailView.as_view(), name='user_detail'),
+    
+    path('account/register/', RegisterUser.as_view(), name='registration'),
+    path('account/login/', LoginUser.as_view(), name='login'),
+    
+    path('overview/profile/', profile_user, name='profile'),
+    
+    path(
+        'account/logout/', 
+        auth_views.LogoutView.as_view(
+            template_name='registration/logged_out.html',
+            extra_context={'next_page': settings.LOGOUT_REDIRECT_URL}
+        ),
+        name='logout_user'
+    ),
 ]
 ```
