@@ -610,7 +610,6 @@ class RegisterUser(View):
             new_user.set_password(form.cleaned_data['password'])
             new_user.save()
             user = authenticate(username=form.cleaned_data['username'], password=form.cleaned_data['password'])
-            # user = authenticate(email=form.cleaned_data['email'], password=form.cleaned_data['password'])
             login(request, user)
             return HttpResponseRedirect('/account/login/')
         return render(request, 'registration/register.html', {'form': form})
