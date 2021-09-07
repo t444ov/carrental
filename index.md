@@ -551,7 +551,7 @@ class LoginUserForm(AuthenticationForm):
 # Views
 
 ```python
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 from django.contrib.auth import logout, login, authenticate
 from django.http.response import HttpResponseRedirect
 from django.views.generic.base import View
@@ -626,11 +626,6 @@ class LoginUser(LoginView):
 def profile_user(request):
     args = {'user': request.user}
     return render(request, 'b_user/detail_view/user_profile_overview.html', args)
-
-
-def logout_user(request):
-    logout(request)
-    return redirect('/')
 ```
 
 # Urls
